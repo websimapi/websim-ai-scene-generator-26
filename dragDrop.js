@@ -79,7 +79,7 @@ function setupMobileDrag(assetLibrary) {
                     y: pos.y - (assetSize / 2),
                     width: assetSize,
                     height: assetSize,
-                    name: `${dragData.type} - ${dragData.prompt.substring(0, 15)}...`
+                    name: `${dragData.type} - ${(dragData.prompt || 'Untitled').substring(0, 15)}...`
                 };
                 addAssetToScene(newAsset);
                 redrawCanvas();

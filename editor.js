@@ -329,7 +329,7 @@ function onDrop(e) {
             y: pos.y - (assetSize / 2),
             width: assetSize,
             height: assetSize,
-            name: `${assetData.type} - ${assetData.prompt.substring(0, 15)}...`
+            name: `${assetData.type} - ${(assetData.prompt || 'Untitled').substring(0, 15)}...`
         };
         addAssetToScene(newAsset);
         selectAsset(newAsset);
