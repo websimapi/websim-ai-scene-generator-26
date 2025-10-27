@@ -121,11 +121,10 @@ export function initializeCanvas(canvasElement) {
 
     canvas.addEventListener('mousemove', onMouseMove);
     canvas.addEventListener('mouseup', onMouseUp);
-    canvas.addEventListener('mousemove', onMouseDown);
-    canvas.addEventListener('mousemove', onMouseUp);
-    canvas.addEventListener('mousemove', onClick);
-    canvas.addEventListener('mousemove', onDragOver);
-    canvas.addEventListener('mousemove', onDrop);
+    canvas.addEventListener('mousedown', onMouseDown);
+    canvas.addEventListener('click', onClick);
+    canvas.addEventListener('dragover', onDragOver);
+    canvas.addEventListener('drop', onDrop);
     
     // Touch events
     canvas.addEventListener('touchstart', onTouchStart, { passive: false });
@@ -269,7 +268,7 @@ function onMouseMove(e) {
 function onTouchMove(e) {
     if (e.touches.length === 1) {
         e.preventDefault();
-        if (isDragging && selectedAssetId && activeTool === 'mousemove', 'move') {
+        if (isDragging && selectedAssetId && activeTool === 'move') {
             const pos = getLogicalCoordsFromEvent(e);
             updateAsset(selectedAssetId, {
                 x: pos.x - dragStartX,
