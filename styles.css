@@ -252,12 +252,7 @@ button:hover {
 }
 
 /* Asset-type specific outline colors on selection */
-.library-asset.selected[data-asset-type="Object"] { border-color: #E0E0E0; }
-.library-asset.selected[data-asset-type="Portal"] { border-color: #DA70D6; }
-.library-asset.selected[data-asset-type="NPC"] { border-color: #98FB98; }
-.library-asset.selected[data-asset-type="Item"] { border-color: #87CEEB; }
-.library-asset.selected[data-asset-type="Character"] { border-color: #FFA07A; }
-.library-asset.selected[data-asset-type="Background"] { border-color: #F4A460; }
+/* These are now injected by ui.js to stay in sync with editor.js colors */
 
 
 #main-content {
