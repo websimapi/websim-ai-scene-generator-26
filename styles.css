@@ -247,8 +247,7 @@ button:hover {
 }
 
 .library-asset.selected {
-    /* Generic selected style, will be overridden by type-specific color */
-    border-color: var(--primary-color); 
+    /* Generic selected style is now handled in JS to be brighter version of type color */
 }
 
 /* Asset-type specific outline colors on selection */

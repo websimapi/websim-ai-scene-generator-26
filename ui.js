@@ -1,5 +1,5 @@
 import { getAssetById, updateAsset, sceneState, markAsDirty } from './state.js';
-import { redrawCanvas, setTool } from './editor.js';
+import { redrawCanvas, setTool, assetTypeColors } from './editor.js';
 import { updatePropertiesPanel } from './propertiesPanel.js';
 import { setupPromptAnimations } from './promptAnimator.js';
 import { initializePanelManager } from './panelManager.js';
@@ -23,9 +23,28 @@ export function updateLastGeneratedAsset(asset) {
 }
 
 export function selectLibraryAsset(element) {
-    document.querySelectorAll('.library-asset').forEach(el => el.classList.remove('selected'));
+    document.querySelectorAll('.library-asset').forEach(el => {
+        el.classList.remove('selected');
+        // Restore original border color
+        const color = assetTypeColors[el.dataset.assetType];
+        if (color) {
+            el.style.borderColor = color;
+        } else {
+            el.style.borderColor = 'transparent';
+        }
+    });
+
     if (element) {
         element.classList.add('selected');
+        // Make selected border color brighter
+        const color = assetTypeColors[element.dataset.assetType];
+        if (color) {
+            // A simple way to brighten: use a high-contrast color or white/light-grey
+             element.style.borderColor = '#FFFFFF';
+        } else {
+            element.style.borderColor = '#007bff'; // Fallback for background or others
+        }
+
         updateLastGeneratedAsset({
             id: `asset_${Date.now()}`, // This is a template, ID will be unique on drop
             url: element.dataset.assetUrl,
@@ -53,6 +72,11 @@ export function addAssetToLibrary(asset) {
     img.dataset.assetUrl = asset.url;
     img.dataset.assetType = asset.type;
     img.dataset.assetPrompt = asset.prompt;
+
+    const color = assetTypeColors[asset.type];
+    if (color) {
+        img.style.borderColor = color;
+    }
 
     assetLibrary.appendChild(img);
     return img;

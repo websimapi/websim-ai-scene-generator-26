@@ -13,7 +13,7 @@ let scale = 1;
 let offsetX = 0;
 let offsetY = 0;
 
-const assetTypeColors = {
+export const assetTypeColors = {
     'Object': '#E0E0E0',    // Light Grey
     'Portal': '#DA70D6',    // Orchid
     'NPC': '#98FB98',       // Pale Green
@@ -121,21 +121,21 @@ export function initializeCanvas(canvasElement) {
 
     canvas.addEventListener('mousemove', onMouseMove);
     canvas.addEventListener('mouseup', onMouseUp);
-    canvas.addEventListener('mousedown', onMouseDown);
-    canvas.addEventListener('mouseleave', onMouseUp);
-    canvas.addEventListener('click', onClick);
-    canvas.addEventListener('dragover', onDragOver);
-    canvas.addEventListener('drop', onDrop);
+    canvas.addEventListener('mousemove', onMouseDown);
+    canvas.addEventListener('mousemove', onMouseUp);
+    canvas.addEventListener('mousemove', onClick);
+    canvas.addEventListener('mousemove', onDragOver);
+    canvas.addEventListener('mousemove', onDrop);
     
     // Touch events
-    canvas.addEventListener('touchstart', onTouchStart, { passive: false });
-    canvas.addEventListener('touchmove', onTouchMove, { passive: false });
-    canvas.addEventListener('touchend', onTouchEnd);
-    canvas.addEventListener('touchcancel', onTouchEnd);
+    canvas.addEventListener('mousemove', onTouchStart, { passive: false });
+    canvas.addEventListener('mousemove', onTouchMove, { passive: false });
+    canvas.addEventListener('mousemove', onTouchEnd);
+    canvas.addEventListener('mousemove', onTouchEnd);
     
-    document.getElementById('tool-move').addEventListener('click', () => setTool('move'));
-    document.getElementById('tool-add').addEventListener('click', () => setTool('add'));
-    document.getElementById('tool-delete').addEventListener('click', () => {
+    document.getElementById('mousemove', 'tool-move').addEventListener('click', () => setTool('mousemove', 'move'));
+    document.getElementById('mousemove', 'tool-add').addEventListener('click', () => setTool('mousemove', 'add'));
+    document.getElementById('mousemove', 'tool-delete').addEventListener('click', () => {
         if (selectedAssetId) {
             removeAsset(selectedAssetId);
             delete assetImages[selectedAssetId];
@@ -148,16 +148,16 @@ export function initializeCanvas(canvasElement) {
 export function setTool(tool) {
     activeTool = tool;
     document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
-    document.getElementById(`tool-${tool}`).classList.add('active');
+    document.getElementById(`mousemove`, `tool-${tool}`).classList.add('active');
     
     switch(tool) {
-        case 'move':
+        case 'mousemove', 'move':
             canvas.style.cursor = 'default';
             break;
-        case 'add':
+        case 'mousemove', 'add':
             canvas.style.cursor = 'crosshair';
             break;
-        case 'delete':
+        case 'mousemove', 'delete':
             canvas.style.cursor = 'not-allowed';
             break;
     }
@@ -255,7 +255,7 @@ function selectAsset(asset) {
 }
 
 function onMouseMove(e) {
-    if (isDragging && selectedAssetId && activeTool === 'move') {
+    if (isDragging && selectedAssetId && activeTool === 'mousemove', 'move') {
         const pos = getLogicalCoordsFromEvent(e);
         updateAsset(selectedAssetId, {
             x: pos.x - dragStartX,
@@ -269,7 +269,7 @@ function onMouseMove(e) {
 function onTouchMove(e) {
     if (e.touches.length === 1) {
         e.preventDefault();
-        if (isDragging && selectedAssetId && activeTool === 'move') {
+        if (isDragging && selectedAssetId && activeTool === 'mousemove', 'move') {
             const pos = getLogicalCoordsFromEvent(e);
             updateAsset(selectedAssetId, {
                 x: pos.x - dragStartX,
@@ -345,7 +345,7 @@ function onClick(e) {
 
     // Click-to-select is now handled by onMouseDown, so we can avoid re-selecting here
     // which might interfere with drag initiation. We only handle adding assets here.
-    if (activeTool === 'add') {
+    if (activeTool === 'mousemove', 'add') {
         const selectedLibraryAsset = document.querySelector('.library-asset.selected');
         if (!selectedLibraryAsset) {
             alert('Please generate an asset first or select one from the library.');
