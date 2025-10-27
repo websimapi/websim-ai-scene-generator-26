@@ -128,14 +128,14 @@ export function initializeCanvas(canvasElement) {
     canvas.addEventListener('mousemove', onDrop);
     
     // Touch events
-    canvas.addEventListener('mousemove', onTouchStart, { passive: false });
-    canvas.addEventListener('mousemove', onTouchMove, { passive: false });
-    canvas.addEventListener('mousemove', onTouchEnd);
-    canvas.addEventListener('mousemove', onTouchEnd);
+    canvas.addEventListener('touchstart', onTouchStart, { passive: false });
+    canvas.addEventListener('touchmove', onTouchMove, { passive: false });
+    canvas.addEventListener('touchend', onTouchEnd);
+    canvas.addEventListener('touchcancel', onTouchEnd);
     
-    document.getElementById('mousemove', 'tool-move').addEventListener('click', () => setTool('mousemove', 'move'));
-    document.getElementById('mousemove', 'tool-add').addEventListener('click', () => setTool('mousemove', 'add'));
-    document.getElementById('mousemove', 'tool-delete').addEventListener('click', () => {
+    document.getElementById('tool-move').addEventListener('click', () => setTool('move'));
+    document.getElementById('tool-add').addEventListener('click', () => setTool('add'));
+    document.getElementById('tool-delete').addEventListener('click', () => {
         if (selectedAssetId) {
             removeAsset(selectedAssetId);
             delete assetImages[selectedAssetId];
@@ -148,16 +148,16 @@ export function initializeCanvas(canvasElement) {
 export function setTool(tool) {
     activeTool = tool;
     document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
-    document.getElementById(`mousemove`, `tool-${tool}`).classList.add('active');
+    document.getElementById(`tool-${tool}`).classList.add('active');
     
     switch(tool) {
-        case 'mousemove', 'move':
+        case 'move':
             canvas.style.cursor = 'default';
             break;
-        case 'mousemove', 'add':
+        case 'add':
             canvas.style.cursor = 'crosshair';
             break;
-        case 'mousemove', 'delete':
+        case 'delete':
             canvas.style.cursor = 'not-allowed';
             break;
     }
@@ -255,7 +255,7 @@ function selectAsset(asset) {
 }
 
 function onMouseMove(e) {
-    if (isDragging && selectedAssetId && activeTool === 'mousemove', 'move') {
+    if (isDragging && selectedAssetId && activeTool === 'move') {
         const pos = getLogicalCoordsFromEvent(e);
         updateAsset(selectedAssetId, {
             x: pos.x - dragStartX,
@@ -345,7 +345,7 @@ function onClick(e) {
 
     // Click-to-select is now handled by onMouseDown, so we can avoid re-selecting here
     // which might interfere with drag initiation. We only handle adding assets here.
-    if (activeTool === 'mousemove', 'add') {
+    if (activeTool === 'add') {
         const selectedLibraryAsset = document.querySelector('.library-asset.selected');
         if (!selectedLibraryAsset) {
             alert('Please generate an asset first or select one from the library.');
